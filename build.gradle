@@ -1,11 +1,17 @@
 buildscript {
-    ext.agpVersion = "8.6.0"
+    ext.agpVersion = '8.10.1'
 }
 plugins {
     id 'com.android.application' version "$agpVersion" apply false
     id 'com.android.library' version "$agpVersion" apply false
     id 'com.github.spotbugs' version '4.8.0' apply false
     id 'checkstyle'
+    // added by prabal
+    id 'com.google.gms.google-services' version '4.4.2' apply false
+    // Add the dependency for the Crashlytics Gradle plugin
+    id 'com.google.firebase.crashlytics' version '3.0.4' apply false
+    // Add the dependency for the Performance Monitoring Gradle plugin
+    id 'com.google.firebase.firebase-perf' version '1.4.2' apply false
 }
 
 project.ext {

@@ -3,18 +3,24 @@ package de.danoeh.antennapod.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
@@ -37,6 +43,9 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.snackbar.Snackbar;
+import com.pb.test.LeakSimulator;
+
+import de.danoeh.antennapod.BuildConfig;
 import de.danoeh.antennapod.R;
 import de.danoeh.antennapod.event.EpisodeDownloadEvent;
 import de.danoeh.antennapod.event.FeedUpdateRunningEvent;
@@ -77,13 +86,17 @@ import de.danoeh.antennapod.ui.screen.rating.RatingDialogManager;
 import de.danoeh.antennapod.ui.screen.subscriptions.SubscriptionFragment;
 import de.danoeh.antennapod.ui.view.BottomSheetBackPressedCallback;
 import de.danoeh.antennapod.ui.view.LockableBottomSheetBehavior;
+import leakcanary.AppWatcher;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.Validate;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -121,6 +134,70 @@ public class MainActivity extends CastEnabledActivity {
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        // added by prabal
+        // Add crash button for testing
+        // Show crash button in debug builds only
+        Log.d("CrashButton", "BuildConfig.DEBUG = " + BuildConfig.DEBUG);
+
+
+        // Add button for Memory leak
+        if (BuildConfig.DEBUG) {
+
+            // 🔴 Test Crash Button
+            Button crashButton = new Button(this);
+            crashButton.setText("Test Crash");
+            crashButton.setBackgroundColor(Color.RED);
+            crashButton.setTextColor(Color.WHITE);
+            crashButton.setPadding(20, 20, 20, 20);
+            crashButton.setOnClickListener(view -> {
+                throw new RuntimeException("Test Crash");
+            });
+
+            FrameLayout.LayoutParams crashParams = new FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.WRAP_CONTENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT
+            );
+            crashParams.gravity = Gravity.BOTTOM | Gravity.END;
+            crashParams.setMargins(0, 0, 30, 250); // Bottom-right, lifted above nav bar
+
+            addContentView(crashButton, crashParams);
+
+            // 🔵 Simulate Leak Button
+            Button leakButton = new Button(this);
+            leakButton.setText("Simulate Leak");
+            leakButton.setBackgroundColor(Color.BLUE);
+            leakButton.setTextColor(Color.WHITE);
+            leakButton.setPadding(20, 20, 20, 20);
+
+            leakButton.setOnClickListener(view -> {
+                Object leakedRef = this;
+
+                // Finish first so the Activity is destroyed
+                finish();
+
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(5000); // Delay to simulate async leak
+                        LeakSimulator.leakedObject = leakedRef; // Leak happens after destruction
+                    } catch (InterruptedException ignored) {}
+                }).start();
+            });
+
+            FrameLayout.LayoutParams leakParams = new FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.WRAP_CONTENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT
+            );
+            leakParams.gravity = Gravity.BOTTOM | Gravity.START;
+            leakParams.setMargins(30, 0, 0, 250); // Bottom-left, lifted above nav bar
+
+            addContentView(leakButton, leakParams);
+
+
+
+        }
+
+
+        // End adding
         recycledViewPool.setMaxRecycledViews(R.id.view_type_episode_item, 25);
         checkFirstLaunch();
 
@@ -770,7 +847,7 @@ public class MainActivity extends CastEnabledActivity {
                 break;
         }
     }
-  
+
     //Hardware keyboard support
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {

@@ -8,10 +8,19 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
+
+import com.pb.test.LoginStatusCallback;
+import com.pb.test.ScanStatusCallback;
+import com.pb.test.ThreatStatusCallback;
+import com.zimperium.api.v5.ZDefend;
+import com.zimperium.api.v5.ZDeviceStatusRegistration;
+
 import de.danoeh.antennapod.R;
 import de.danoeh.antennapod.activity.MainActivity;
 import de.danoeh.antennapod.databinding.HomeFragmentBinding;
@@ -56,6 +65,11 @@ public class HomeFragment extends Fragment implements Toolbar.OnMenuItemClickLis
     private HomeFragmentBinding viewBinding;
     private Disposable disposable;
 
+    private ZDeviceStatusRegistration scanStatusRegistration;
+
+    private ZDeviceStatusRegistration loginStatusRegistration;
+    private ZDeviceStatusRegistration threatStatusRegistration;
+
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -74,6 +88,21 @@ public class HomeFragment extends Fragment implements Toolbar.OnMenuItemClickLis
         viewBinding.swipeRefresh.setDistanceToTriggerSync(getResources().getInteger(R.integer.swipe_refresh_distance));
         viewBinding.swipeRefresh.setOnRefreshListener(() ->
                 FeedUpdateManager.getInstance().runOnceOrAsk(requireContext()));
+
+        //Added by prabal for scan percentage
+        TextView scanProgress = viewBinding.scanPercentage;
+        ScanStatusCallback sc = new ScanStatusCallback(scanProgress);
+        scanStatusRegistration = ZDefend.addDeviceStatusCallback(sc);
+
+        TextView loginStatus = viewBinding.zdefendLoginStatus;
+        LoginStatusCallback sc_login = new LoginStatusCallback(loginStatus);
+        loginStatusRegistration =ZDefend.addDeviceStatusCallback(sc_login);
+
+        TextView threatStatus = viewBinding.threatTotal;
+        ThreatStatusCallback sc_threat = new ThreatStatusCallback(threatStatus);
+        threatStatusRegistration =ZDefend.addDeviceStatusCallback(sc_threat);
+
+        // end adding
 
         return viewBinding.getRoot();
     }
