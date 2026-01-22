@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,12 +16,15 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 
+import com.pb.test.LeakSimulator;
 import com.pb.test.LoginStatusCallback;
+import com.pb.test.SDKVersionCallback;
 import com.pb.test.ScanStatusCallback;
 import com.pb.test.ThreatStatusCallback;
 import com.zimperium.api.v5.ZDefend;
 import com.zimperium.api.v5.ZDeviceStatusRegistration;
 
+import de.danoeh.antennapod.BuildConfig;
 import de.danoeh.antennapod.R;
 import de.danoeh.antennapod.activity.MainActivity;
 import de.danoeh.antennapod.databinding.HomeFragmentBinding;
@@ -102,8 +106,42 @@ public class HomeFragment extends Fragment implements Toolbar.OnMenuItemClickLis
         ThreatStatusCallback sc_threat = new ThreatStatusCallback(threatStatus);
         threatStatusRegistration =ZDefend.addDeviceStatusCallback(sc_threat);
 
+        TextView sdkVersion = viewBinding.sdkVersion;
+        SDKVersionCallback sdkVersionCallback = new SDKVersionCallback(sdkVersion);
+        ZDefend.addDeviceStatusCallback(sdkVersionCallback);
         // end adding
+        // added by prabal
+        // Add crash button for testing
+        // Show crash button in debug builds only
+        Log.d("CrashButton", "BuildConfig.DEBUG = " + BuildConfig.DEBUG);
 
+
+        // Add button for Memory leak
+        if (BuildConfig.DEBUG) {
+
+            // 🔴 Test Crash Button
+            Button crashButton = viewBinding.testCrash;
+            crashButton.setOnClickListener(view -> {
+                throw new RuntimeException("Test Crash");
+            });
+
+            // 🔵 Simulate Leak Button
+            Button leakButton = viewBinding.simulateLeak;
+            leakButton.setOnClickListener(view -> {
+                Object leakedRef = this;
+
+                // Finish first so the Activity is destroyed
+                requireActivity().finish();
+
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(5000); // Delay to simulate async leak
+                        LeakSimulator.leakedObject = leakedRef; // Leak happens after destruction
+                    } catch (InterruptedException ignored) {}
+                }).start();
+            });
+        }
+        // End adding
         return viewBinding.getRoot();
     }
 

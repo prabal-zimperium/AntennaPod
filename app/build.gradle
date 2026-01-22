@@ -157,8 +157,8 @@ dependencies {
     implementation("com.google.firebase:firebase-perf")
 
     // debugImplementation because LeakCanary should only run in debug builds.
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.14'
-    implementation 'com.squareup.leakcanary:leakcanary-object-watcher-android:2.14'
+    //debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.14'
+    //debugImplementation 'com.squareup.leakcanary:leakcanary-object-watcher-android:2.14'
 
 }
 

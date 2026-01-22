@@ -145,6 +145,7 @@
         </LinearLayout>
 
         <LinearLayout
+                android:id="@+id/threatCount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/zdefendScan"
@@ -170,6 +171,69 @@
                     android:textSize="14sp"
                     android:layout_marginStart="4dp"
                     android:contentDescription="threatTotal"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/sdkVersionDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/threatCount"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="8dp">
+
+            <TextView
+                    android:id="@+id/sdkVersionLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ZDefend SDK Version:"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textSize="14sp" />
+
+            <TextView
+                    android:id="@+id/sdkVersion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textSize="14sp"
+                    android:layout_marginStart="4dp"
+                    android:contentDescription="threatTotal"/>
+
+        </LinearLayout>
+        <LinearLayout
+                android:id="@+id/testButtons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/sdkVersionDetails"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="8dp">
+        <Button
+                android:id="@+id/testCrash"
+                android:contentDescription="testCrash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="Test Crash"
+                android:backgroundTint="#0000FF"
+                android:textColor="#FFFFFF"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+        <Button
+                android:id="@+id/simulateLeak"
+                android:contentDescription="simulateLeak"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="Simulate Leak"
+                android:backgroundTint="#FF0000"
+                android:textColor="#FFFFFF"
+                app:layout_constraintStart_toEndOf="@+id/testCrash"
+                />
         </LinearLayout>
         <!-- End adding -->
 
