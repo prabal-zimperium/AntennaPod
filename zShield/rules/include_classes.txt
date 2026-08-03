@@ -1,0 +1,14 @@
+de.danoeh.antennapod.net.common.BasicAuthorizationInterceptor.**
+de.danoeh.antennapod.net.sync.gpoddernet.GpodnetServiceAuthenticationException.**
+de.danoeh.antennapod.ui.preferences.databinding.AuthenticationDialogBinding.**
+de.danoeh.antennapod.ui.preferences.databinding.GpodnetauthCredentialsBinding.**
+de.danoeh.antennapod.ui.preferences.databinding.GpodnetauthDeviceBinding.**
+de.danoeh.antennapod.ui.preferences.databinding.GpodnetauthDeviceRowBinding.**
+de.danoeh.antennapod.ui.preferences.databinding.GpodnetauthDialogBinding.**
+de.danoeh.antennapod.ui.preferences.databinding.GpodnetauthFinishBinding.**
+de.danoeh.antennapod.ui.preferences.databinding.GpodnetauthHostBinding.**
+de.danoeh.antennapod.ui.preferences.databinding.NextcloudAuthDialogBinding.**
+de.danoeh.antennapod.ui.preferences.screen.synchronization.AuthenticationDialog.**
+de.danoeh.antennapod.ui.preferences.screen.synchronization.GpodderAuthenticationFragment.**
+de.danoeh.antennapod.ui.preferences.screen.synchronization.NextcloudAuthenticationFragment.**
+androidx.FailedNcq
