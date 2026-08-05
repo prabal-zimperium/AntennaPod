@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<nw version="n67" generator="3.27.1">
+<nw version="n68" generator="3.28.0">
 	<platform type="android">
 		<sdk>/Users/mohammedtausif.warsi/Library/Android/sdk/ndk/28.2.13676358</sdk>
 		<apkIntegrity>0</apkIntegrity>
@@ -9,7 +9,6 @@
 		<packExecutable>true</packExecutable>
 		<packerDeflateLevel>0</packerDeflateLevel>
 		<tamperCheckTmpDirectory/>
-		<selectiveAnalysis>true</selectiveAnalysis>
 		<sourceRoot>build/src</sourceRoot>
 		<buildLocation>build/src</buildLocation>
 		<analysisRoot>build/src_analysis</analysisRoot>
@@ -313,7 +312,7 @@
 			<androidBuildTools>/Users/mohammedtausif.warsi/Library/Android/sdk/build-tools/36.0.0</androidBuildTools>
 			<sonameBase/>
 			<extraArgs>--disable-auto-include --disable-auto-exclude --disable-asset-auto-include --include-asset assets/**.cer --include-asset assets/**.bks --include-asset assets/**.properties --include-asset assets/**.json --exclude-file rules/exclude_classes.txt --include-file rules/include_classes.txt --encrypt-dex-file rules/encrypt_classes.txt</extraArgs>
-			<signingArgs>--ks-key-alias &apos;key0&apos; --key-pass &apos;pass:password&apos; --ks-pass &apos;pass:password&apos; --ks &apos;/Users/mohammedtausif.warsi/Projects/zDefend/5_10_43_EA14June2026/native/android/CustomApp/ZDefendConsumerApiAdvancedSample/mykeystore.keystore&apos;</signingArgs>
+			<signingArgs>--ks-key-alias &apos;key0&apos; --key-pass &apos;pass:password&apos; --ks-pass &apos;pass:password&apos; --ks &apos;/Users/mohammedtausif.warsi/Projects/zDefend/AntennaPod/AntennaPodGitZDefend/AntennaPod/app/mykeystore.keystore&apos;</signingArgs>
 			<buildSystem>ndk-build</buildSystem>
 			<zDefend>
 				<sdk>/Users/mohammedtausif.warsi/Projects/zDefend/AntennaPod/AntennaPodGitZDefend/AntennaPod/app/libs/zdefend.aar</sdk>

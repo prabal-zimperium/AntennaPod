@@ -43,5 +43,9 @@ proguard
 libs
 *.DS_Store
 gradle.properties
-*.keystore
+#*.keystore
 *.p12
+zShield/*.nwdb
+zShield/*.log
+zShield/*.backup
+zShield/build
